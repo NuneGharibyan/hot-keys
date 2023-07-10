@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ReactElement, useEffect, useRef } from "react";
+import { TestModal } from "./modal/TestModal";
+import { useKeyboardShortcuts } from "./useKeyboardShortcuts/useKeyboardShortcuts";
 
-function App() {
+function App(): ReactElement {
+  const componentRef = useRef(null);
+
+  useEffect(() => {
+    console.log("0000");
+    (componentRef as any)?.current.focus();
+  }, [componentRef]);
+
+  useKeyboardShortcuts({
+    ref: componentRef,
+    onKeyDown: () => {
+      console.log("component click");
+    },
+  });
+
+  const onClick = (): void => {
+    console.log("page button onclick");
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div tabIndex={0} ref={componentRef}>
+      <button onClick={onClick}>{"sdfa"}</button>
+      <TestModal></TestModal>
     </div>
   );
 }
