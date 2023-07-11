@@ -1,5 +1,5 @@
 import { Button, Modal } from "antd";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useKeyboardShortcuts } from "../useKeyboardShortcuts/useKeyboardShortcuts";
 
 const TestModal: React.FC = () => {
@@ -7,10 +7,14 @@ const TestModal: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModal2Open, setIsModal2Open] = useState(false);
 
+  useEffect(() => {
+    (modalRef.current as any)?.focus();
+  });
+
   useKeyboardShortcuts({
     ref: modalRef,
     onKeyDown: () => {
-      console.log("modal key down");
+      alert("Key a was pressed MODAL");
     },
   });
 
@@ -38,7 +42,7 @@ const TestModal: React.FC = () => {
         onCancel={handleCancel}
         focusTriggerAfterClose={false}
       >
-        <div tabIndex={0} ref={modalRef}>
+        <div tabIndex={-1} ref={modalRef}>
           <p>{"Some contents..."}</p>
           <p>{"Some contents..."}</p>
           <p>{"Some contents..."}</p>

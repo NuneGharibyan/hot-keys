@@ -6,14 +6,13 @@ function App(): ReactElement {
   const componentRef = useRef(null);
 
   useEffect(() => {
-    console.log("0000");
     (componentRef as any)?.current.focus();
   }, [componentRef]);
 
   useKeyboardShortcuts({
     ref: componentRef,
     onKeyDown: () => {
-      console.log("component click");
+      alert("Key a was pressed COMPONENT");
     },
   });
 
@@ -22,7 +21,7 @@ function App(): ReactElement {
   };
 
   return (
-    <div tabIndex={0} ref={componentRef}>
+    <div tabIndex={-1} ref={componentRef}>
       <button onClick={onClick}>{"sdfa"}</button>
       <TestModal></TestModal>
     </div>
