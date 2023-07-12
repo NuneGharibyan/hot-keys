@@ -9,6 +9,7 @@ function useKeyboardShortcuts({
 }) {
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
+      console.log(ref.current, document.activeElement);
       if (ref.current === document.activeElement) {
         onKeyDown();
         // event.stopImmediatePropagation();

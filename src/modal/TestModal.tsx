@@ -1,63 +1,49 @@
-import { Button, Modal } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import { Modal } from "antd";
+import React, { useEffect, useRef } from "react";
 import { useKeyboardShortcuts } from "../useKeyboardShortcuts/useKeyboardShortcuts";
 
-const TestModal: React.FC = () => {
+const TestModal: React.FC<{
+  isVisible: boolean;
+  onCancel: () => void;
+  body: any;
+}> = ({ isVisible, onCancel, body }) => {
   const modalRef = useRef(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModal2Open, setIsModal2Open] = useState(false);
 
   useEffect(() => {
-    (modalRef.current as any)?.focus();
-  });
+    if (isVisible) {
+      console.log("focus modal", modalRef);
+      (modalRef.current as any)?.focus();
+    }
+  }, [isVisible]);
 
   useKeyboardShortcuts({
     ref: modalRef,
     onKeyDown: () => {
-      alert("Key a was pressed MODAL");
+      // alert(`Key a was pressed MODAL ${body}`);
+      onCancel();
     },
   });
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
   const handleOk = () => {
-    setIsModal2Open(true);
+    onCancel();
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    onCancel();
   };
 
   return (
-    <>
-      <Button type={"primary"} onClick={showModal}>
-        {"Open Modal"}
-      </Button>
-      <Modal
-        title={"Basic Modal"}
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        focusTriggerAfterClose={false}
-      >
-        <div tabIndex={-1} ref={modalRef}>
-          <p>{"Some contents..."}</p>
-          <p>{"Some contents..."}</p>
-          <p>{"Some contents..."}</p>
-        </div>
-      </Modal>
-      <Modal
-        title={"Basic Modal"}
-        open={isModal2Open}
-        onOk={handleOk}
-        onCancel={() => setIsModal2Open(false)}
-        focusTriggerAfterClose={false}
-      >
-        <p>{"222222"}</p>
-      </Modal>
-    </>
+    <Modal
+      title={"Basic Modal"}
+      open={isVisible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      focusTriggerAfterClose={false}
+    >
+      <div tabIndex={0} ref={modalRef}>
+        {body}
+      </div>
+    </Modal>
   );
 };
 
