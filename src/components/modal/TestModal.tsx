@@ -1,34 +1,38 @@
 import { Modal } from "antd";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect } from "react";
+import { ComponentContext } from "../context/componentContext";
 import { useKeyboardShortcuts } from "../useKeyboardShortcuts/useKeyboardShortcuts";
 
 const TestModal: React.FC<{
+  id: string;
   isVisible: boolean;
   onCancel: () => void;
   body: any;
-}> = ({ isVisible, onCancel, body }) => {
-  const modalRef = useRef(null);
+}> = ({ id, isVisible, onCancel, body }) => {
+  const { addElement, removeElement } = useContext(ComponentContext);
 
   useEffect(() => {
     if (isVisible) {
-      console.log("focus modal", modalRef);
-      (modalRef.current as any)?.focus();
+      addElement(id);
+    } else {
+      removeElement(id);
     }
-  }, [isVisible]);
+    console.log("modal");
+  }, [isVisible, id]);
 
   useKeyboardShortcuts({
-    ref: modalRef,
+    key: id,
     onKeyDown: () => {
       // alert(`Key a was pressed MODAL ${body}`);
       onCancel();
     },
   });
 
-  const handleOk = () => {
+  const handleOk = (): void => {
     onCancel();
   };
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     onCancel();
   };
 
@@ -40,9 +44,7 @@ const TestModal: React.FC<{
       onCancel={handleCancel}
       focusTriggerAfterClose={false}
     >
-      <div tabIndex={0} ref={modalRef}>
-        {body}
-      </div>
+      <div tabIndex={0}>{body}</div>
     </Modal>
   );
 };

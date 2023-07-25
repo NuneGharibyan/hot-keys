@@ -1,21 +1,24 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
+import { ComponentContext } from "../context/componentContext";
 
 function useKeyboardShortcuts({
-  ref,
+  key,
   onKeyDown,
 }: {
-  ref: any;
+  key: string;
   onKeyDown: () => void;
 }) {
+  const { getTopElementId } = useContext(ComponentContext);
+
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
-      console.log(ref.current, document.activeElement);
-      if (ref.current === document.activeElement) {
+      console.log(key);
+      if (key === getTopElementId()) {
         onKeyDown();
         // event.stopImmediatePropagation();
       }
     },
-    [onKeyDown, ref]
+    [onKeyDown, key, getTopElementId]
   );
 
   // const reff = ref.current;
