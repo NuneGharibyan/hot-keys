@@ -1,22 +1,22 @@
 import { Button } from "antd";
 import { ReactElement, useState } from "react";
+import { withKeyboardShortcuts } from "./components/HOC";
 import { TestModal } from "./components/modal/TestModal";
 import { Page } from "./components/page/Page";
-import { useKeyboardShortcuts } from "./components/useKeyboardShortcuts/useKeyboardShortcuts";
+
+const Modal = withKeyboardShortcuts(TestModal);
+const PageComponent = withKeyboardShortcuts(Page);
 
 function App(): ReactElement {
   const [isVisible, setVisibility] = useState<boolean>(false);
   const [isVisible1, setVisibility1] = useState<boolean>(false);
 
-  useKeyboardShortcuts({
-    key: "page-1",
-    onKeyDown: () => {
-      alert("Key a was pressed COMPONENT");
-    },
-  });
+  const onPageKeyDown = (): void => {
+    alert("Page key down");
+  };
 
   return (
-    <Page id={"page-1"}>
+    <PageComponent id={"page-1"} onKeyDown={onPageKeyDown}>
       <div tabIndex={-1}>
         <Button
           type={"primary"}
@@ -26,9 +26,10 @@ function App(): ReactElement {
         >
           {"Open Modal"}
         </Button>
-        <TestModal
+        <Modal
           id={"modal-1"}
           isVisible={isVisible}
+          onKeyDown={() => setVisibility(false)}
           onCancel={() => setVisibility(false)}
           body={
             <Button
@@ -41,9 +42,10 @@ function App(): ReactElement {
             </Button>
           }
         />
-        <TestModal
+        <Modal
           id={"modal-2"}
           isVisible={isVisible1}
+          onKeyDown={() => setVisibility1(false)}
           onCancel={() => setVisibility1(false)}
           body={
             <>
@@ -54,7 +56,7 @@ function App(): ReactElement {
           }
         />
       </div>
-    </Page>
+    </PageComponent>
   );
 }
 

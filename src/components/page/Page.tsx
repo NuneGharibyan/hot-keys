@@ -1,16 +1,15 @@
-import React, { ReactElement, useContext, useEffect } from "react";
-import { ComponentContext } from "../context/componentContext";
+import React, { ReactElement, useEffect } from "react";
 
 const Page: React.FC<{
   id: string;
   children: ReactElement;
-}> = ({ id, children }) => {
-  const { addElement, removeElement } = useContext(ComponentContext);
-
+  onFocus?: () => void;
+  onBlur?: () => void;
+}> = ({ children, onFocus, onBlur }) => {
   useEffect(() => {
-    addElement(id);
-    console.log("page");
-    return () => removeElement(id);
+    onFocus?.();
+
+    return () => onBlur?.();
   }, []);
 
   return <div style={{ height: "100%", width: "100%" }}>{children}</div>;

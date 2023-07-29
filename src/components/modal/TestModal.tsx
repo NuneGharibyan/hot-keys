@@ -1,32 +1,23 @@
 import { Modal } from "antd";
-import React, { useContext, useEffect } from "react";
-import { ComponentContext } from "../context/componentContext";
-import { useKeyboardShortcuts } from "../useKeyboardShortcuts/useKeyboardShortcuts";
+import React, { useEffect } from "react";
 
 const TestModal: React.FC<{
   id: string;
   isVisible: boolean;
   onCancel: () => void;
   body: any;
-}> = ({ id, isVisible, onCancel, body }) => {
-  const { addElement, removeElement } = useContext(ComponentContext);
-
+  onFocus?: () => void;
+  onBlur?: () => void;
+}> = ({ isVisible, onCancel, body, onFocus, onBlur }) => {
   useEffect(() => {
     if (isVisible) {
-      addElement(id);
+      onFocus?.();
     } else {
-      removeElement(id);
+      onBlur?.();
     }
     console.log("modal");
-  }, [isVisible, id]);
-
-  useKeyboardShortcuts({
-    key: id,
-    onKeyDown: () => {
-      // alert(`Key a was pressed MODAL ${body}`);
-      onCancel();
-    },
-  });
+    //TODO: add onFocus and onBlur to the dependency array with use callback
+  }, [isVisible]);
 
   const handleOk = (): void => {
     onCancel();
@@ -42,9 +33,8 @@ const TestModal: React.FC<{
       open={isVisible}
       onOk={handleOk}
       onCancel={handleCancel}
-      focusTriggerAfterClose={false}
     >
-      <div tabIndex={0}>{body}</div>
+      <div>{body}</div>
     </Modal>
   );
 };
