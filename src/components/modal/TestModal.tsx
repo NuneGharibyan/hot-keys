@@ -2,7 +2,6 @@ import { Modal } from "antd";
 import React, { useEffect } from "react";
 
 const TestModal: React.FC<{
-  id: string;
   isVisible: boolean;
   onCancel: () => void;
   body: any;

@@ -11,7 +11,10 @@ const withKeyboardShortcuts = (Component: FC<any>) => (props: any) => {
     (event: KeyboardEvent) => {
       if (id === getTopElementId()) {
         onKeyDown();
-        // event.stopImmediatePropagation();
+        console.log(event.key);
+        if (event.ctrlKey === true) {
+          console.log(`Key pressed: ${event.key}`);
+        }
       }
     },
     [onKeyDown, id, getTopElementId]
@@ -19,7 +22,7 @@ const withKeyboardShortcuts = (Component: FC<any>) => (props: any) => {
 
   useEffect(() => {
     document?.addEventListener("keydown", handleKeyPress);
-
+    //ghjk
     return () => {
       document?.removeEventListener("keydown", handleKeyPress);
     };

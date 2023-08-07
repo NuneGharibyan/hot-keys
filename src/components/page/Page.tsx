@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect } from "react";
 
 const Page: React.FC<{
-  id: string;
   children: ReactElement;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -10,7 +9,7 @@ const Page: React.FC<{
     onFocus?.();
 
     return () => onBlur?.();
-  }, []);
+  });
 
   return <div style={{ height: "100%", width: "100%" }}>{children}</div>;
 };
