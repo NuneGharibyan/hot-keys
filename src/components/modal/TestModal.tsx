@@ -14,7 +14,7 @@ const TestModal: React.FC<{
     } else {
       onBlur?.();
     }
-    console.log("modal");
+
     //TODO: add onFocus and onBlur to the dependency array with use callback
   }, [isVisible]);
 

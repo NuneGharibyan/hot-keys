@@ -1,9 +1,9 @@
 import { Button } from "antd";
 import { ReactElement, useState } from "react";
 import { withKeyboardShortcuts } from "./components/HOC";
-import { IShortcut } from "./components/HOC/with-keyboard-shortcuts/withKeyboardShortcuts";
 import { TestModal } from "./components/modal/TestModal";
 import { Page } from "./components/page/Page";
+import { IShortcut } from "./components/shortcuts-helper/ShortcutsHelper";
 
 const Modal = withKeyboardShortcuts(TestModal);
 const PageComponent = withKeyboardShortcuts(Page);
@@ -18,8 +18,7 @@ function App(): ReactElement {
 
   const pageShortcuts: IShortcut[] = [
     {
-      key: "p",
-      ctrl: true,
+      key: "ctrl+p",
       onKeyDown: onPageKeyDown,
     },
   ];
@@ -33,7 +32,6 @@ function App(): ReactElement {
   const modalShortcuts: IShortcut[] = [
     {
       key: "Escape",
-      ctrl: false,
       onKeyDown: onCloseDialog,
     },
   ];
@@ -45,7 +43,6 @@ function App(): ReactElement {
   const modal1Shortcuts: IShortcut[] = [
     {
       key: "Escape",
-      ctrl: false,
       onKeyDown: onCloseDialog1,
     },
   ];
